@@ -27,10 +27,9 @@ public class Adventure {
         String command = "";
 
         do {
-            System.out.println("Enter a command");
+            System.out.println("What will you do next?");
             while (!check(valid_commands, scanner.next())) {
-                System.out.println(check(valid_commands, scanner.nextLine()));
-                String input = scanner.next();
+                String input = scanner.nextLine();
                 System.out.printf("\"%s\" is not a valid command. Enter a valid command \n", input);
             }
 
@@ -46,6 +45,7 @@ public class Adventure {
 
     public static void runCommand(String[] command) {
         String cm = command[0];
+        System.out.println("command executed");
         if (cm == "go") {
             go(command[0]);
         } else if (cm == "inventory") {
