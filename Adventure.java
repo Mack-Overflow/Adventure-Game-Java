@@ -28,9 +28,10 @@ public class Adventure {
 
         do {
             System.out.println("Enter a command");
-            while (!check(valid_commands, scanner.nextLine())) {
+            while (!check(valid_commands, scanner.next())) {
+                System.out.println(check(valid_commands, scanner.nextLine()));
                 String input = scanner.next();
-                System.out.printf("\"%s\" is not a valid command. \n", input);
+                System.out.printf("\"%s\" is not a valid command. Enter a valid command \n", input);
             }
 
             command = scanner.nextLine();
@@ -69,9 +70,12 @@ public class Adventure {
     private static boolean check(String[] arr, String element) {
         String[] arrOfEl = element.split("\\s+");
         // System.out.print(arrOfEl[0] + element + "\n");
-        System.out.print(Arrays.asList(arr));
-        boolean validCommand = Arrays.asList(arr).stream().anyMatch(arrOfEl[0]);
-        System.out.print(Arrays.asList(arr));
+        // System.out.print(Arrays.asList(arr));
+
+        boolean validCommand = Arrays.asList(arr).contains(arrOfEl[0]);
+
+        // System.out.print(arr + arrOfEl[0]);
+
         return validCommand;
     }
 }
