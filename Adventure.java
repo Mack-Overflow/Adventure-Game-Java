@@ -1,16 +1,20 @@
 import java.util.Arrays;
 import java.util.Scanner;
+
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.And;
+
 import java.lang.System;
+import java.util.HashMap;
 
 public class Adventure {
     /**
      * Adventure class Part 1. Demonstrates the following: Using Scanner class for
      * text input, String n
      */
-    static String[] inventory = new String[10];
+    static String[] inventory = new String[4];
+    static boolean quitProgram = false; // changed to true when exit entered
 
     public static void main(String[] args) {
-        boolean exitProgram = false; // changed to true when exit entered
         int[][] position = new int[0][0]; // coordinates of player
 
         String[] valid_commands = new String[3];
@@ -24,37 +28,40 @@ public class Adventure {
         Adventure.inventory[3] = "staff";
 
         Scanner scanner = new Scanner(System.in); // Start user input
-        String command = "";
+        String input = "";
 
         do {
             System.out.println("What will you do next?");
-            while (!check(valid_commands, scanner.next())) {
-                String input = scanner.nextLine();
+            input = scanner.nextLine();
+            while (!check(valid_commands, input)) {
                 System.out.printf("\"%s\" is not a valid command. Enter a valid command \n", input);
+                input = scanner.nextLine();
             }
 
-            command = scanner.nextLine();
+            String command = input;
             String[] arrOfCommands = command.split("\\s+");
             runCommand(arrOfCommands);
 
-        } while (!exitProgram);
+        } while (!quitProgram);
 
-        System.out.println(command);
-
+        System.out.println("program exited");
     }
 
     public static void runCommand(String[] command) {
-        String cm = command[0];
-        System.out.println("command executed");
-        if (cm == "go") {
+        String cm = command[0].toLowerCase();
+        char firstChar = cm.charAt(0);
+
+        if (firstChar == 'g') {
             go(command[0]);
-        } else if (cm == "inventory") {
+        } else if (firstChar == 'i') {
             printInventory();
+        } else if (firstChar == 'q') {
+            quit();
         }
     }
 
-    public void exit(boolean exitProgram) {
-        exitProgram = true;
+    public static void quit() {
+        quitProgram = true;
     }
 
     public static void go(String direction) {
@@ -69,12 +76,19 @@ public class Adventure {
 
     private static boolean check(String[] arr, String element) {
         String[] arrOfEl = element.split("\\s+");
-        // System.out.print(arrOfEl[0] + element + "\n");
-        // System.out.print(Arrays.asList(arr));
+        HashMap<Character, String> comms = new HashMap<Character, String>();
+
+        for (int i = 0; i < arrOfEl.length; i++) {
+            comms.put(element.charAt(0), arrOfEl[i]);
+        }
 
         boolean validCommand = Arrays.asList(arr).contains(arrOfEl[0]);
-
+        Character el;
         // System.out.print(arr + arrOfEl[0]);
+        if (element.length() == 1) {
+            el = element.charAt(0);
+        }
+        validCommand = comms.containsKey(el) || validCommand;
 
         return validCommand;
     }
