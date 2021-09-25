@@ -1,8 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.And;
-
 import java.lang.System;
 import java.util.HashMap;
 
@@ -78,17 +76,17 @@ public class Adventure {
         String[] arrOfEl = element.split("\\s+");
         HashMap<Character, String> comms = new HashMap<Character, String>();
 
-        for (int i = 0; i < arrOfEl.length; i++) {
-            comms.put(element.charAt(0), arrOfEl[i]);
-        }
+        String cm = arrOfEl[0].toLowerCase();
+        char firstChar = cm.charAt(0);
+        boolean validCommand = false;
 
-        boolean validCommand = Arrays.asList(arr).contains(arrOfEl[0]);
-        Character el;
-        // System.out.print(arr + arrOfEl[0]);
-        if (element.length() == 1) {
-            el = element.charAt(0);
+        if (firstChar == 'g') {
+            validCommand = true;
+        } else if (firstChar == 'i') {
+            validCommand = true;
+        } else if (firstChar == 'q') {
+            validCommand = true;
         }
-        validCommand = comms.containsKey(el) || validCommand;
 
         return validCommand;
     }
